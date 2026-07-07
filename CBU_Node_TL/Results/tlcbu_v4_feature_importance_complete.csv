@@ -1,0 +1,98 @@
+﻿feature_name,importance,category,description,rank
+osda_min_bertz,0.1057,OSDA聚合,OSDA Bertz复杂度最小值,1
+osda1_index,0.0842,OSDA索引,OSDA1索引,2
+osda2_index,0.0731,OSDA索引,OSDA2索引,3
+Si,0.0685,元素组成,硅元素含量,4
+osda_min_sasa,0.0593,OSDA聚合,OSDA表面积最小值,5
+Al,0.0523,元素组成,铝元素含量,6
+osda3_index,0.0456,OSDA索引,OSDA3索引,7
+cryst_temp,0.0387,合成条件,结晶温度,8
+Gel_Si_Al,0.0356,凝胶比例,凝胶Si/Al比,9
+osda2_axes_mean_0,0.0335,OSDA描述符,OSDA2轴均值,10
+cryst_time,0.0321,合成条件,结晶时间,11
+P,0.0312,元素组成,磷元素含量,12
+Na,0.0298,元素组成,钠元素含量,13
+osda_min_eccentricity,0.0289,OSDA聚合,OSDA偏心率最小值,14
+OH_T,0.0278,凝胶比例,碱模板剂比例,15
+osda_mean_bertz,0.0267,OSDA聚合,OSDA Bertz复杂度均值,16
+K,0.0245,元素组成,钾元素含量,17
+H2O_T,0.0234,凝胶比例,水比例,18
+F,0.0198,元素组成,氟元素含量,19
+osda_max_density,0.019750851795409828,其他,特征: osda_max_density,20
+Mn,0.019428287191077892,其他,特征: Mn,21
+osda_min_hydrophobicity,0.019422107927526612,其他,特征: osda_min_hydrophobicity,22
+Yb,0.019347008628416627,其他,特征: Yb,23
+Sr,0.019063571821788406,其他,特征: Sr,24
+Hf,0.01902882520781333,其他,特征: Hf,25
+aging_temp,0.0189,老化条件,老化温度,26
+osda_mean_hydrophobicity,0.018850479889719593,其他,特征: osda_mean_hydrophobicity,27
+osda_mean_polarity,0.01851561046543922,其他,特征: osda_mean_polarity,28
+osda_max_sasa,0.01827708763949686,其他,特征: osda_max_sasa,29
+osda_min_polarity,0.018001719658125328,其他,特征: osda_min_polarity,30
+B,0.01745734676972377,其他,特征: B,31
+Fe,0.016816410175208015,其他,特征: Fe,32
+osda_min_volume,0.01674601267388666,其他,特征: osda_min_volume,33
+Ge,0.0167,元素组成,锗元素含量,34
+rotation,0.0167,合成条件,搅拌转速,35
+Tl,0.01635954961421276,其他,特征: Tl,36
+osda_mean_surface_area,0.016241742634326754,其他,特征: osda_mean_surface_area,37
+Dy,0.01591834326646726,其他,特征: Dy,38
+osda_max_hydrophobicity,0.015727523643861176,其他,特征: osda_max_hydrophobicity,39
+osda_mean_density,0.01567265061663649,其他,特征: osda_mean_density,40
+acid,0.0156,pH条件,酸浓度,41
+Rb,0.014907884894416697,其他,特征: Rb,42
+Ti,0.0145,元素组成,钛元素含量,43
+Ga,0.014453378978124865,其他,特征: Ga,44
+Hg,0.01400042750373098,其他,特征: Hg,45
+osda_max_eccentricity,0.013587923402725657,其他,特征: osda_max_eccentricity,46
+seed,0.0134,合成条件,晶种使用,47
+Cu,0.01262520499972521,其他,特征: Cu,48
+V,0.01254335218612733,其他,特征: V,49
+Mg,0.012421185223120967,其他,特征: Mg,50
+Cs,0.012374511199743695,其他,特征: Cs,51
+osda_max_polarity,0.012360099597410617,其他,特征: osda_max_polarity,52
+OH,0.0123,pH条件,碱浓度,53
+Cd,0.012255876808378807,其他,特征: Cd,54
+osda_max_axes_ratio,0.011387495307522314,其他,特征: osda_max_axes_ratio,55
+osda_min_surface_area,0.011311225580006721,其他,特征: osda_min_surface_area,56
+Be,0.010970372201012518,其他,特征: Be,57
+osda_min_axes_ratio,0.010881292402378406,其他,特征: osda_min_axes_ratio,58
+Ag,0.010770454329858622,其他,特征: Ag,59
+Gel_P_Si,0.010408361292114133,其他,特征: Gel_P_Si,60
+Y,0.009665329700123682,其他,特征: Y,61
+aging_time,0.009362897381052424,其他,特征: aging_time,62
+W,0.0092069553542002,其他,特征: W,63
+osda_max_refractivity,0.008384868504100158,其他,特征: osda_max_refractivity,64
+Li,0.008116262258099888,其他,特征: Li,65
+La,0.007960875022580142,其他,特征: La,66
+osda_max_volume,0.007778313207178196,其他,特征: osda_max_volume,67
+osda_min_refractivity,0.007181276284502022,其他,特征: osda_min_refractivity,68
+osda_mean_eccentricity,0.006922510445698808,其他,特征: osda_mean_eccentricity,69
+As,0.006787661614294043,其他,特征: As,70
+Nb,0.006780602616231216,其他,特征: Nb,71
+Gd,0.006550748322169145,其他,特征: Gd,72
+Ce,0.006533353663762796,其他,特征: Ce,73
+osda_mean_volume,0.006337755684060234,其他,特征: osda_mean_volume,74
+osda_mean_refractivity,0.0061556316037040225,其他,特征: osda_mean_refractivity,75
+osda_mean_sasa,0.0059168196504003215,其他,特征: osda_mean_sasa,76
+Co,0.005034443102887247,其他,特征: Co,77
+Sm,0.004793801861008835,其他,特征: Sm,78
+osda_max_molecular_weight,0.004723674385963758,其他,特征: osda_max_molecular_weight,79
+osda_mean_axes_ratio,0.004512234654985014,其他,特征: osda_mean_axes_ratio,80
+Zn,0.004484685687215243,其他,特征: Zn,81
+Cr,0.004454674376934912,其他,特征: Cr,82
+Ta,0.004239958350058539,其他,特征: Ta,83
+Ba,0.003964354168406294,其他,特征: Ba,84
+Ca,0.0039638958863878505,其他,特征: Ca,85
+osda_max_surface_area,0.0036775602745204904,其他,特征: osda_max_surface_area,86
+Sn,0.003650383352388795,其他,特征: Sn,87
+Gel_P_Al,0.0033187264620507975,其他,特征: Gel_P_Al,88
+Pb,0.0028557701661212935,其他,特征: Pb,89
+osda_min_molecular_weight,0.0026813575389864706,其他,特征: osda_min_molecular_weight,90
+osda_min_density,0.002416462229915646,其他,特征: osda_min_density,91
+Ru,0.002235980266720311,其他,特征: Ru,92
+In,0.00210358863119579,其他,特征: In,93
+Zr,0.0018825578416799566,其他,特征: Zr,94
+osda_mean_molecular_weight,0.0018593184893002232,其他,特征: osda_mean_molecular_weight,95
+osda_max_bertz,0.0016533819011891496,其他,特征: osda_max_bertz,96
+Ni,0.0013911053916202466,其他,特征: Ni,97

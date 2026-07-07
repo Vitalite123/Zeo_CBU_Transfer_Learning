@@ -1,0 +1,17 @@
+{
+  "test_accuracy": 0.7735706171904582,
+  "test_precision_macro": 0.6590885985566854,
+  "test_recall_macro": 0.6809357952406293,
+  "test_f1_macro": 0.6522093313001698,
+  "test_f1_weighted": 0.7721862951421313,
+  "prediction_variance": 0.003423247253522277,
+  "best_val_accuracy": 0.7856060606060606,
+  "num_classes": 231,
+  "num_features": 104,
+  "epochs": 50,
+  "batch_size": 64,
+  "learning_rate": 0.001,
+  "training_samples": 12537,
+  "validation_samples": 2640,
+  "test_samples": 2641
+}

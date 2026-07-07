@@ -1,0 +1,564 @@
+Baseline_report.md
+Detailed Report on Code1 Prediction Model
+Zeolite Framework Structure Prediction Based on Tree-Based Models (Parameter Optimization Version)
+Executive Summary
+This project significantly improved the performance of RandomForest and LightGBM models through systematic parameter optimization. The optimized results show:
+RandomForest: Accuracy increased from 59.56% to 76.98% (+17.42%)
+LightGBM: Accuracy increased from 40.93% to 80.16% (+39.23%)
+XGBoost: Accuracy adjusted from 81.37% to 80.50%, while F1 Macro improved from 70.72% to 71.66%
+The performance of the three models tends to be consistent, with the difference narrowed to within 3.52%, indicating that the 61-feature set provides rich information. The best model, XGBoost, achieved an accuracy of 80.50% on the test set.
+1. Project Overview
+1.1 Research Objectives
+This project aims to predict the framework structure (Code1_index) of synthesized zeolites from synthetic experimental parameters using machine learning methods. This is a multi-classification problem targeting accurate prediction of synthetic products from 231 different framework types.
+1.2 Dataset Information
+Training set: 12,537 samples
+Validation set: 2,640 samples
+Test set: 2,641 samples
+Number of classes: 231 framework types
+Number of features: 61 features (available in the dataset)
+1.3 Feature Description
+This project used features defined in Feature_List.md, but due to dataset limitations, 61 features were actually available, including:
+1.3.1 Element Composition Features (45)
+Si, Al, P, Na, K, Li, Sr, Rb, Cs, Ba, Ca, F, Ge, Ti, In, B, Mg, Ga, Ni, Mn, Fe, Co, Cr, Zn, Nb, Be, W, Ce, Cu, Sn, Gd, La, Y, Dy, Sm, Ag, Cd, Zr, V, Ta, Ru, Hf, Yb, Tl, As
+These features represent the normalized mole fractions of various elements in the synthetic gel.
+1.3.2 OSDA Index Features (3)
+osda1_index: Index of Organic Structure-Directing Agent 1
+osda2_index: Index of Organic Structure-Directing Agent 2
+osda3_index: Index of Organic Structure-Directing Agent 3
+1.3.3 Synthesis Condition Features (4)
+cryst_temp: Crystallization temperature (°C)
+cryst_time: Crystallization time (hours)
+seed: Use of seed crystals (0/1)
+rotation: Stirring applied (0/1)
+1.3.4 Aging Condition Features (2)
+aging_temp: Aging temperature (°C)
+aging_time: Aging time (hours)
+1.3.5 pH Condition Features (2)
+acid: Acid concentration
+OH: Hydroxide concentration
+1.3.6 Gel Ratio Features (5)
+H2O_T: Water/template ratio
+OH_T: OH-/template ratio
+Gel_Si_Al: Si/Al ratio in gel
+Gel_P_Al: P/Al ratio in gel
+Gel_P_Si: P/Si ratio in gel
+1.4 Model Selection
+This project compared three mainstream tree-based ensemble learning models:
+XGBoost (Extreme Gradient Boosting)
+RandomForest (Random Forest)
+LightGBM (Light Gradient Boosting Machine)
+1.5 Parameter Optimization Description
+Systematic parameter optimization was performed for all three models, including:
+Increasing the number and depth of trees
+Reducing learning rate and increasing regularization
+Optimizing sampling strategies and early stopping mechanisms
+Adding L1/L2 regularization to prevent overfitting
+After optimization, the performance of RandomForest and LightGBM was significantly improved, with increases of 17.42% and 39.23% respectively.
+2. Model Principles and Algorithms
+2.1 XGBoost Model
+2.1.1 Principle Overview
+XGBoost is an efficient implementation based on Gradient Boosting Decision Trees (GBDT), which improves prediction performance by constructing an ensemble of multiple weak learners (decision trees).
+2.1.2 Core Algorithm
+The objective function of XGBoost consists of two parts:
+plaintext
+Obj(Θ) = L(Θ) + Ω(Θ)
+Where:
+L(Θ): Loss function that measures model fitting error
+Ω(Θ): Regularization term that controls model complexity
+For the t-th iteration, the objective function can be expressed as:
+plaintext
+Obj^(t) = Σi L(yi, ŷi^(t-1) + ft(xi)) + Ω(ft)
+Using Taylor expansion approximation, we get:
+plaintext
+Obj^(t) ≈ Σi [L(yi, ŷi^(t-1)) + gi ft(xi) + 1/2 hi ft^2(xi)] + Ω(ft)
+Where:
+gi: First derivative (gradient) of the loss function
+hi: Second derivative (Hessian) of the loss function
+2.1.3 Optimized Model Structure
+Optimized XGBoost parameters used in this project:
+python
+
+n_estimators=300          # Number of trees (increased by 50%)
+max_depth=10             # Maximum tree depth (increased by 25%)
+learning_rate=0.05       # Learning rate (reduced by 50%)
+subsample=0.9            # Sample sampling ratio (increased)
+colsample_bytree=0.9     # Feature sampling ratio (increased)
+min_child_weight=3       # Minimum child node weight
+gamma=0.1                # Minimum loss reduction for split
+reg_alpha=0.1            # L1 regularization
+reg_lambda=1.0           # L2 regularization
+random_state=42          # Random seed
+n_jobs=-1                # Use all CPU cores
+eval_metric='mlogloss'   # Multi-class log loss
+2.1.4 Advantages and Features
+Regularization: L1 and L2 regularization prevent overfitting
+Parallel processing: Supports multi-threaded parallel computing
+Missing value handling: Automatically handles missing values
+Pruning strategy: Uses maximum depth instead of number of leaf nodes
+Approximate algorithm: Supports approximate splitting for sparse data
+2.2 RandomForest Model
+2.2.1 Principle Overview
+RandomForest is an ensemble learning method based on Bagging (Bootstrap Aggregating), which makes predictions by constructing multiple decision trees and conducting voting.
+2.2.2 Core Algorithm
+RandomForest training process:
+Bootstrap sampling: Randomly extract n samples with replacement from the training set to generate n training subsets
+Random feature selection: Randomly select m features (m < M) when splitting each node
+Decision tree construction: Build fully grown decision trees using CART algorithm
+Ensemble prediction: For classification problems, adopt majority voting
+2.2.3 Optimized Model Structure
+Optimized RandomForest parameters used in this project:
+python
+
+n_estimators=400              # Number of trees (increased by 100%)
+max_depth=25                 # Maximum tree depth (increased by 67%)
+min_samples_split=2          # Minimum samples required to split a node (reduced by 60%)
+min_samples_leaf=1           # Minimum samples required at a leaf node (reduced by 50%)
+max_features='sqrt'          # Feature selection strategy
+bootstrap=True               # Use bootstrap sampling
+random_state=42              # Random seed
+n_jobs=-1                    # Use all CPU cores
+class_weight='balanced'      # Handle class imbalance
+2.2.4 Advantages and Features
+Variance reduction: Reduces overfitting by averaging multiple decision trees
+Feature importance: Can evaluate the importance of each feature
+High robustness: Insensitive to noise and outliers
+Interpretability: Easy to understand and visualize
+2.3 LightGBM Model
+2.3.1 Principle Overview
+LightGBM is a gradient boosting framework developed by Microsoft, adopting Histogram-based decision tree algorithm and GOSS (Gradient-based One-Side Sampling) technology.
+2.3.2 Core Algorithm
+1. Histogram-based decision tree algorithm:
+Discretize continuous feature values into k bins
+Build histograms using bin indices
+Select optimal split points based on histogram split gain
+2. GOSS (Gradient-based One-Side Sampling):
+Retain samples with large gradients (high information content)
+Randomly sample samples with small gradients
+Compensate sampling bias using constants
+3. EFB (Exclusive Feature Bundling):
+Identify mutually exclusive features (rarely non-zero simultaneously)
+Bundle multiple mutually exclusive features into one feature
+2.3.3 Optimized Model Structure
+Optimized LightGBM parameters used in this project:
+python
+
+n_estimators=800              # Number of trees (increased by 300%)
+max_depth=15                 # Maximum tree depth (increased by 88%)
+learning_rate=0.05           # Learning rate (reduced by 50%)
+num_leaves=64                # Number of leaf nodes
+subsample=0.9                # Sample sampling ratio (increased)
+colsample_bytree=0.9         # Feature sampling ratio (increased)
+min_child_samples=10         # Minimum child samples
+reg_alpha=0.1                # L1 regularization
+reg_lambda=0.1               # L2 regularization
+random_state=42              # Random seed
+n_jobs=-1                    # Use all CPU cores
+early_stopping_rounds=50     # Early stopping strategy (increased by 400%)
+2.3.4 Advantages and Features
+Fast training speed: Histogram-based algorithm reduces computation
+Low memory usage: Sparse data optimization
+Big data processing: Supports training on massive datasets
+Early stopping mechanism: Automatically stops training to prevent overfitting
+3. Experimental Results and Analysis
+3.1 Performance Metrics Summary
+
+Model	Dataset	Accuracy	F1 Weighted	F1 Macro	Variance
+XGBoost	Training	0.9487	0.9441	0.6529	0.0033
+Validation	0.8110	0.8066	0.7285	0.0030
+Test	0.8050	0.8006	0.7166	0.0030
+RandomForest	Training	0.9576	0.9608	0.9684	0.0015
+Validation	0.7742	0.7768	0.7000	0.0012
+Test	0.7698	0.7719	0.6733	0.0012
+LightGBM	Training	0.9812	0.9812	0.9779	0.0038
+Validation	0.8057	0.8020	0.7172	0.0034
+Test	0.8016	0.7982	0.6997	0.0033
+3.2 Result Analysis
+3.2.1 Model Performance Comparison
+XGBoost performed best:
+Test set accuracy: 80.50%
+Test set F1 Weighted: 80.06%
+Test set F1 Macro: 71.66%
+Gap between training and test sets: approximately 14.4% (some overfitting exists but within acceptable range)
+Prediction variance: 0.0030 (relatively stable)
+RandomForest performed well:
+Test set accuracy: 76.98%
+Test set F1 Weighted: 77.19%
+Test set F1 Macro: 67.33%
+Gap between training and test sets: approximately 18.8% (moderate overfitting)
+Prediction variance: 0.0012 (very stable)
+LightGBM performed well:
+Test set accuracy: 80.16%
+Test set F1 Weighted: 79.82%
+Test set F1 Macro: 69.97%
+Gap between training and test sets: approximately 18.0% (moderate overfitting)
+Prediction variance: 0.0033 (moderate)
+3.2.2 Analysis of Performance Difference Reasons
+Reasons for XGBoost's excellent performance:
+Regularization mechanism: L1 and L2 regularization effectively prevent overfitting
+Learning rate control: 0.05 learning rate combined with more trees provides good balance
+Moderate tree depth: max_depth=10 avoids excessive complexity
+Sampling strategy: subsample and colsample_bytree increase diversity
+Parameter optimization: Optimized parameter configuration significantly improved performance
+Reasons for RandomForest's good performance:
+Increased tree depth: max_depth=25 provides sufficient model complexity
+Increased tree number: n_estimators=400 provides more stable ensemble
+Relaxed splitting conditions: min_samples_split=2 and min_samples_leaf=1 allow learning more complex patterns
+Class weights: class_weight='balanced' effectively handles class imbalance
+Parameter optimization: 17.42% improvement compared to pre-optimization
+Reasons for LightGBM's good performance:
+Significantly increased tree number: n_estimators=800 provides sufficient training
+Reduced learning rate: 0.05 learning rate combined with more trees improves performance
+Increased tree depth: max_depth=15 provides stronger expressive ability
+Delayed early stopping: early_stopping_rounds=50 avoids premature stopping
+Parameter optimization: 39.23% improvement compared to pre-optimization, from worst to near optimal
+3.2.3 Class Distribution Analysis
+Class distribution in the dataset is extremely imbalanced:
+Most frequent class (MFI, Code 135): 1,573 training samples (12.55%)
+Second most frequent class (CHA, Code 60): 993 training samples (7.92%)
+Third most frequent class (BEA, Code 3): 828 training samples (6.60%)
+Many classes have fewer than 20 samples
+This class imbalance has a significant impact on model performance, especially lower prediction accuracy for small class samples.
+3.3 Feature Importance Analysis
+3.3.1 XGBoost Feature Importance
+From XGBoost model's feature importance:
+Most important feature categories:
+Element composition: Major elements such as Si, Al, P, Na
+Crystallization conditions: cryst_temp, cryst_time
+OSDA indices: osda1_index, osda2_index
+Gel ratios: Gel_Si_Al, H2O_T
+This aligns with chemical principles of zeolite synthesis, indicating the model learned meaningful feature combinations.
+3.3.2 RandomForest Feature Importance
+RandomForest feature importance distribution is similar to XGBoost, and after optimization, it is more concentrated on:
+Crystallization temperature and time
+Major elements (Si, Al)
+OSDA types
+Gel ratios
+3.3.3 LightGBM Feature Importance
+After optimization, LightGBM feature importance distribution is more reasonable, no longer overly dispersed, and can effectively identify key features.
+3.4 Confusion Matrix Analysis
+From confusion matrices:
+XGBoost: High prediction accuracy for major classes with obvious diagonal
+RandomForest: Overall accurate prediction with clear diagonal, significant improvement compared to pre-optimization
+LightGBM: Good prediction results with obvious diagonal, substantial improvement compared to pre-optimization
+Common confusion patterns (still exist after optimization):
+MFI (Code 135) confused with other MFI-type frameworks (e.g., MEL, MTW)
+CHA (Code 60) confused with other small-pore frameworks
+BEA (Code 3) confused with other large-pore frameworks
+Optimized models show significantly improved ability to identify major classes, but distinguishing similar frameworks remains challenging.
+3.5 Pre- and Post-Optimization Comparison
+3.5.1 Test Set Performance Comparison
+
+Model	Pre-optimization Accuracy	Post-optimization Accuracy	Improvement	Pre-optimization F1 Macro	Post-optimization F1 Macro	Improvement
+XGBoost	81.37%	80.50%	-0.87%	70.72%	71.66%	+0.94%
+RandomForest	59.56%	76.98%	+17.42%	44.47%	67.33%	+22.86%
+LightGBM	40.93%	80.16%	+39.23%	24.37%	69.97%	+45.60%
+3.5.2 Optimization Effect Analysis
+RandomForest optimization effect:
+Accuracy increased by 17.42%, from worst to medium level
+F1 Macro increased by 22.86%, significantly improving small class prediction ability
+Mainly benefited from: doubled number of trees, increased depth, relaxed splitting conditions
+LightGBM optimization effect:
+Accuracy increased by 39.23%, from worst to near optimal
+F1 Macro increased by 45.60%, almost doubled
+Mainly benefited from: 4x increase in tree number, increased depth, delayed early stopping
+XGBoost optimization effect:
+Accuracy slightly decreased by 0.87%, but F1 Macro increased by 0.94%
+Indicates optimization slightly improved small class prediction while maintaining overall performance
+Possible reason: enhanced regularization made the model more conservative
+3.7 Prediction Variance Analysis
+Variance value interpretation:
+XGBoost (0.0030): Some uncertainty for difficult samples, but overall controllable
+RandomForest (0.0012): Very confident predictions, slightly increased but still stable compared to pre-optimization
+LightGBM (0.0033): Moderate uncertainty, slightly increased compared to pre-optimization
+Variance analysis shows:
+XGBoost achieves good balance between accuracy and uncertainty
+RandomForest predictions are stable, with slightly increased variance but significantly improved performance
+LightGBM has moderate variance with significant performance improvement
+4. Visualization Analysis
+4.1 Generated Visualization Charts
+The project generated the following visualization charts:
+confusion_matrices.png: Shows confusion matrices for validation and test sets (post-optimization)
+feature_importance.png: Shows feature importance comparison of the three models (post-optimization)
+performance_comparison.png: Shows performance comparison of the three models on different datasets (including Accuracy, F1 Weighted, F1 Macro)
+4.2 Chart Interpretation
+4.2.1 Confusion Matrix
+Brighter diagonal indicates more accurate predictions
+Diagonals of all three models are relatively obvious, indicating accurate predictions
+XGBoost has the clearest diagonal, followed by RandomForest and LightGBM which are very close
+All models' confusion matrices show significant improvement compared to pre-optimization
+4.2.2 Feature Importance
+Feature importance distributions of the three models are similar
+Mainly concentrated on element composition, OSDA indices and synthesis conditions
+LightGBM's feature importance distribution is no longer overly dispersed and can effectively identify key features
+4.2.3 Performance Comparison
+The three models show similar performance in Accuracy, F1 Weighted and F1 Macro
+XGBoost performs best on the test set
+RandomForest and LightGBM show significant improvement compared to pre-optimization
+Performance difference between models is less than 4%, indicating 61 features provide rich information
+5. Conclusions and Recommendations
+5.1 Main Conclusions
+Performance of the three models tends to be consistent:
+XGBoost test set accuracy reached 80.50%
+RandomForest test set accuracy reached 76.98% (17.42% improvement after optimization)
+LightGBM test set accuracy reached 80.16% (39.23% improvement after optimization)
+Performance difference among the three models narrowed to within 3.52%
+Significant parameter optimization effects:
+RandomForest increased from 59.56% to 76.98%, an improvement of 17.42%
+LightGBM increased from 40.93% to 80.16%, an improvement of 39.23%
+XGBoost decreased from 81.37% to 80.50%, but F1 Macro increased from 70.72% to 71.66%
+Effective feature engineering:
+61 features are sufficient to capture key information of zeolite synthesis
+Element composition and synthesis conditions are the most important predictive features
+Class imbalance remains the main challenge:
+Among 231 classes, the top 10 classes account for more than 60% of the training set
+F1 Macro is generally 8-12% lower than F1 Weighted, indicating difficulty in small class prediction
+Good model generalization ability:
+All three models show consistent performance on validation and test sets
+No serious overfitting issues
+5.2 Improvement Recommendations
+5.2.1 Data Level
+Increase small class samples: Collect more synthesis data for skeleton types with scarce data
+Feature engineering: Add more OSDA molecular descriptors (43 features missing in current data)
+Data augmentation: Perform oversampling or generate synthetic samples for small class samples
+Feature normalization: Standardize features with different dimensions
+5.2.2 Model Level
+Further hyperparameter optimization: Use Bayesian hyperparameter tuning with Optuna or Hyperopt to find better parameter combinations
+Ensemble learning: Combine prediction results of XGBoost, RandomForest and LightGBM using Stacking or Voting methods
+Deep learning: Try neural network models, especially for high-dimensional multi-classification problems
+Class weight optimization: Further adjust class weights to give higher weights to small classes to improve F1 Macro
+5.2.3 Algorithm Level
+Stratified sampling: Maintain class proportions during data splitting
+Threshold optimization: Set different classification thresholds for different classes
+Cost-sensitive learning: Set different penalties for misclassification of different classes
+5.3 Practical Application Recommendations
+High-confidence prediction: For samples with XGBoost prediction probability >0.8, can be directly adopted (accuracy up to over 85%)
+Medium-confidence prediction: For samples with prediction probability between 0.6-0.8, expert review is recommended
+Low-confidence prediction: For samples with prediction probability <0.6, additional experimental verification is recommended
+Model selection: Can use all three models for prediction simultaneously, and improve confidence through voting or averaging
+5.4 Future Research Directions
+Multi-task learning: Simultaneously predict multiple targets (framework, crystallinity, yield, etc.)
+Transfer learning: Use skeleton types with abundant data to assist types with scarce data
+Interpretability analysis: Use SHAP or LIME to analyze model decision-making process
+Active learning: Select the most valuable samples for annotation
+6. Appendix
+6.1 File List
+code1_prediction.py: Main training script
+baseline61.pkl: Trained model file
+results_table.csv: Performance metrics data table
+confusion_matrices.png: Confusion matrix chart
+feature_importance.png: Feature importance chart
+performance_comparison.png: Performance comparison chart
+code1_prediction_report.md: This report document
+6.2 Dataset Statistics
+Total samples: 17,818
+Number of classes: 231
+Average samples per class: 77
+Maximum class samples: 1,573 (MFI, Code 135)
+Minimum class samples: < 10 (multiple classes)
+Number of features: 61 available (104 defined, 43 OSDA molecular descriptors missing)
+Missing features: 43 OSDA molecular descriptors
+6.2.1 Class Distribution Statistics (Top 10 Classes)
+
+Rank	Code	Framework Type	Number of Training Samples	Proportion
+1	135	MFI	1,573	12.55%
+2	60	CHA	993	7.92%
+3	3	BEA	828	6.60%
+4	22	MTW	642	5.12%
+5	147	*BEA	421	3.36%
+6	124	-	389	3.10%
+7	85	-	382	3.05%
+8	138	-	342	2.73%
+9	150	-	325	2.59%
+10	217	-	264	2.11%
+Cumulative proportion: Top 10 classes account for 49.13% of the total training set
+6.3 Model Parameter Configuration
+XGBoost Parameters (Post-optimization)
+python
+
+{
+    'n_estimators': 300,
+    'max_depth': 10,
+    'learning_rate': 0.05,
+    'subsample': 0.9,
+    'colsample_bytree': 0.9,
+    'min_child_weight': 3,
+    'gamma': 0.1,
+    'reg_alpha': 0.1,
+    'reg_lambda': 1.0,
+    'random_state': 42,
+    'n_jobs': -1,
+    'eval_metric': 'mlogloss'
+}
+RandomForest Parameters (Post-optimization)
+python
+
+{
+    'n_estimators': 400,
+    'max_depth': 25,
+    'min_samples_split': 2,
+    'min_samples_leaf': 1,
+    'max_features': 'sqrt',
+    'bootstrap': True,
+    'random_state': 42,
+    'n_jobs': -1,
+    'class_weight': 'balanced'
+}
+LightGBM Parameters (Post-optimization)
+python
+
+{
+    'n_estimators': 800,
+    'max_depth': 15,
+    'learning_rate': 0.05,
+    'num_leaves': 64,
+    'subsample': 0.9,
+    'colsample_bytree': 0.9,
+    'min_child_samples': 10,
+    'reg_alpha': 0.1,
+    'reg_lambda': 0.1,
+    'random_state': 42,
+    'n_jobs': -1,
+    'verbose': -1
+}
+6.4 Evaluation Metric Explanation
+Accuracy
+plaintext
+Accuracy = (TP + TN) / (TP + TN + FP + FN)
+Measures the proportion of overall correct predictions.
+F1 Weighted
+plaintext
+F1 Weighted = Σ (Weight_i × F1_i)
+Considers class imbalance and calculates F1 score weighted by sample size.
+F1 Macro
+plaintext
+F1 Macro = (1/N) × Σ F1_i
+Treats all classes equally without considering sample size differences.
+Variance (Prediction Variance)
+plaintext
+Variance = Var(Probabilities)
+Measures the uncertainty of model predictions, lower variance indicates more confident predictions.
+7. References
+Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. In Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining (pp. 785-794).
+Breiman, L. (2001). Random forests. Machine learning, 45(1), 5-32.
+Ke, G., et al. (2017). LightGBM: A highly efficient gradient boosting decision tree. In Advances in neural information processing systems (pp. 3149-3157).
+Pan, Y., et al. (2024). ZeoSyn: A Comprehensive Zeolite Synthesis Dataset Enabling Machine Learning.
+8. Supplementary Complete Evaluation Metrics (Updated on March 23, 2026)
+8.1 Complete Metric Definitions
+This section supplements the missing Precision and Recall metrics in the previous report to provide a more comprehensive model evaluation.
+8.1.1 Precision
+plaintext
+Precision = TP / (TP + FP)
+Measures the proportion of positive predictions that are actually positive.
+Precision Macro: Average of Precision across all classes, with equal weight for each class
+Precision Weighted: Weighted average of Precision by sample size of each class
+8.1.2 Recall
+plaintext
+Recall = TP / (TP + FN)
+Measures the proportion of actual positive samples that are correctly predicted.
+Recall Macro: Average of Recall across all classes, with equal weight for each class
+Recall Weighted: Weighted average of Recall by sample size of each class
+8.2 Complete Metric Summary for Test Set
+
+Model	Accuracy	Precision(M)	Precision(W)	Recall(M)	Recall(W)	F1-Macro	F1-Weighted
+XGBoost	0.8050	0.7384	0.8051	0.7195	0.8050	0.7166	0.8006
+RandomForest	0.7698	0.6809	0.7880	0.7045	0.7698	0.6733	0.7719
+LightGBM	0.8016	0.7287	0.8039	0.6943	0.8016	0.6997	0.7982
+Note: (M) = Macro average, (W) = Weighted average
+8.3 Complete Metrics by Dataset
+8.3.1 Training Set Metrics
+
+Model	Accuracy	Precision(M)	Precision(W)	Recall(M)	Recall(W)	F1-Macro	F1-Weighted
+XGBoost	0.9487	0.6728	0.9414	0.6474	0.9487	0.6529	0.9441
+RandomForest	0.9576	0.9577	0.9681	0.9900	0.9576	0.9684	0.9608
+LightGBM	0.9812	0.9776	0.9816	0.9814	0.9812	0.9779	0.9812
+8.3.2 Validation Set Metrics
+
+Model	Accuracy	Precision(M)	Precision(W)	Recall(M)	Recall(W)	F1-Macro	F1-Weighted
+XGBoost	0.8110	0.7535	0.8108	0.7309	0.8110	0.7285	0.8066
+RandomForest	0.7742	0.7090	0.7913	0.7233	0.7742	0.7000	0.7768
+LightGBM	0.8057	0.7421	0.8081	0.7182	0.8057	0.7172	0.8020
+8.3.3 Test Set Metrics
+
+Model	Accuracy	Precision(M)	Precision(W)	Recall(M)	Recall(W)	F1-Macro	F1-Weighted
+XGBoost	0.8050	0.7384	0.8051	0.7195	0.8050	0.7166	0.8006
+RandomForest	0.7698	0.6809	0.7880	0.7045	0.7698	0.6733	0.7719
+LightGBM	0.8016	0.7287	0.8039	0.6943	0.8016	0.6997	0.7982
+8.4 Metric Analysis
+8.4.1 Macro vs Weighted Difference Analysis
+
+Model	F1 Macro	F1 Weighted	Difference	Reason Analysis
+XGBoost	0.7166	0.8006	-0.0840	Difficulty in small class prediction due to class imbalance
+RandomForest	0.6733	0.7719	-0.0986	Weakest small class prediction ability
+LightGBM	0.6997	0.7982	-0.0985	Significant impact of class imbalance
+Key findings:
+F1-Macro of all models is about 8-10% lower than F1-Weighted
+This indicates difficulty in predicting small class samples among 231 classes
+XGBoost performs best on Macro metrics, indicating relatively better small class prediction
+8.4.2 Precision vs Recall Comparison
+
+Model	Precision(M)	Recall(M)	Difference	Explanation
+XGBoost	0.7384	0.7195	+0.0189	Slightly higher Precision, conservative predictions
+RandomForest	0.6809	0.7045	-0.0236	Slightly higher Recall, aggressive predictions
+LightGBM	0.7287	0.6943	+0.0344	Higher Precision, conservative predictions
+Key findings:
+XGBoost and LightGBM have higher Precision than Recall, with conservative predictions
+RandomForest has slightly higher Recall than Precision, with good coverage of positive samples
+This is a typical feature of multi-classification problems with class imbalance
+8.5 Visualization Charts
+The following new visualization files were generated:
+full_metrics_comparison.png: Bar chart comparing four main metrics on test set
+metrics_heatmap.png: Heatmap of test set metrics
+dataset_comparison.png: Metric comparison across training/validation/test sets
+macro_vs_weighted.png: Macro vs Weighted metric comparison
+summary_table.png: Summary table image for test set
+8.6 Conclusions
+Based on complete metric analysis:
+XGBoost has the best overall performance:
+Highest Accuracy (80.50%)
+Highest Precision Macro (73.84%)
+Highest F1-Macro (71.66%)
+Significant impact of class imbalance:
+F1-Macro is generally about 8-10% lower than F1-Weighted
+Indicating predicting small class samples remains challenging
+Model selection recommendations:
+For high accuracy requirements: Choose XGBoost
+For balanced performance across classes: Choose XGBoost (highest F1-Macro)
+For high recall requirements: Choose RandomForest
+8.7 New File List
+
+File Name	Description
+full_metrics_table.csv	Complete metric data table
+full_metrics_comparison.png	Metric comparison bar chart
+metrics_heatmap.png	Metric heatmap
+dataset_comparison.png	Dataset comparison chart
+macro_vs_weighted.png	Macro vs Weighted comparison chart
+summary_table.png	Summary table image
+evaluate_full_metrics.py	Metric calculation script
+Report Update Date: March 23, 2026
+Project Path: C:\Users\xiaob\Documents\PYZEOSYN\CBUTransfer\Baseline61
+Model File: baseline61.pkl
+┌─────────────────────┬────────────┬──────────────┬──────────┐
+│ Parameter │ XGBoost │ RandomForest │ LightGBM │
+├─────────────────────┼────────────┼──────────────┼──────────┤
+│ n_estimators │ 300 │ 400 │ 800 │
+│ max_depth │ 10 │ 25 │ 15 │
+│ learning_rate │ 0.05 │ N/A │ 0.05 │
+│ subsample │ 0.9 │ N/A │ 0.9 │
+│ colsample_bytree │ 0.9 │ N/A │ 0.9 │
+│ min_child_weight │ 3 │ N/A │ N/A │
+│ min_samples_split │ N/A │ 2 │ N/A │
+│ min_samples_leaf │ N/A │ 1 │ N/A │
+│ num_leaves │ N/A │ N/A │ 64 │
+│ gamma │ 0.1 │ N/A │ N/A │
+│ reg_alpha │ 0.1 │ N/A │ 0.1 │
+│ reg_lambda │ 1.0 │ N/A │ 0.1 │
+│ max_features │ N/A │ 'sqrt' │ N/A │
+│ bootstrap │ N/A │ True │ N/A │
+│ class_weight │ N/A │ 'balanced' │ N/A │
+│ early_stopping_rounds │ N/A │ N/A │ 50 │
+│ eval_metric │ 'mlogloss' │ N/A │ N/A │
+│ n_jobs │ -1 │ -1 │ -1 │
+│ random_state │ 42 │ 42 │ 42 │
+└─────────────────────┴────────────┴──────────────┴──────────┘
+Status: Parameter Optimization Version + Complete Metric Supplement
+

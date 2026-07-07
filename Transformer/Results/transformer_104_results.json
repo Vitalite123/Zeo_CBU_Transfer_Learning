@@ -1,0 +1,22 @@
+{
+  "test_accuracy": 0.6777735706171905,
+  "test_precision_macro": 0.5547617766042336,
+  "test_recall_macro": 0.5567890917839374,
+  "test_f1_macro": 0.5411905463061527,
+  "test_f1_weighted": 0.6690051823313694,
+  "prediction_variance": 0.00294881802983582,
+  "best_val_accuracy": 0.6776515151515151,
+  "num_classes": 231,
+  "num_features": 104,
+  "epochs": 149,
+  "batch_size": 128,
+  "learning_rate": 0.001,
+  "d_model": 64,
+  "n_head": 4,
+  "n_layers": 2,
+  "dim_feedforward": 128,
+  "total_parameters": 105639,
+  "training_samples": 12537,
+  "validation_samples": 2640,
+  "test_samples": 2641
+}

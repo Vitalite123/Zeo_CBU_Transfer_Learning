@@ -1,0 +1,14 @@
+Token,feature,importance
+Token 5,"Ru, Hf, Yb, Tl, As, osda1_index",1.4307
+Token 7,"H2O_T, OH_T, Gel_Si_Al",1.4297
+Token 12,"osda_min_asphericity, osda_avg_sasa",1.4289
+Token 0,"Si, Al, P, Na, K, Li, Sr, Rb",1.4258
+Token 10,"osda2_box, osda2_getaway",1.4257
+Token 3,"Nb, Be, W, Ce, Cu, Sn, Gd, La",1.4207
+Token 1,"Cs, Ba, Ca, F, Ge, Ti, In, B",1.4204
+Token 4,"Y, Dy, Sm, Ag, Cd, Zr, V, Ta",1.4201
+Token 2,"Mg, Ga, Ni, Mn, Fe, Co, Cr, Zn",1.42
+Token 6,"cryst_temp, cryst_time, seed",1.422
+Token 8,"osda1_eccentricity, osda1_axes",1.422
+Token 11,"osda3_axes, osda3_box",1.4229
+Token 9,"osda2_bertz, osda2_free_sasa",1.4194

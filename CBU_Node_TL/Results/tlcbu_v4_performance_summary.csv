@@ -1,0 +1,16 @@
+﻿Metric,Value,Unit
+Overall Accuracy,95.24%,Percentage
+F1-Weighted,95.00%,Percentage
+F1-Macro,75.94%,Percentage
+Precision-Macro,N/A,Percentage
+Recall-Macro,N/A,Percentage
+Training Samples,"34,543",Count
+Validation Samples,"3,941",Count
+Test Samples,"9,715",Count
+Feature Count,104,Count
+Category Count,231,Count
+Best Alpha,0.2,Weight
+Stage5 Accuracy,95.41%,Percentage
+Large Category Accuracy,98.26%,Percentage
+Very Small Category Accuracy,92.16%,Percentage
+Tiny Category Accuracy,55.34%,Percentage

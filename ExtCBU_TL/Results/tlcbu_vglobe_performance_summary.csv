@@ -1,0 +1,24 @@
+﻿Metric,Value,Unit
+Overall Accuracy,96.46%,Percentage
+F1-Weighted,96.31%,Percentage
+F1-Macro,82.73%,Percentage
+Precision-Macro,83.56%,Percentage
+Recall-Macro,83.01%,Percentage
+Precision-Weighted,96.37%,Percentage
+Recall-Weighted,96.46%,Percentage
+Training Samples,"34,543",Count
+Validation Samples,"3,941",Count
+Test Samples,"9,715",Count
+Feature Count,104,Count
+Category Count,231,Count
+Best Alpha,0.8,Weight
+Layer1 Accuracy,96.40%,Percentage
+Layer2 Accuracy(v2),87.55%,Percentage
+Global Similarity Size,65×65,Matrix Size
+Structure Weight,30%,Weight
+Chemistry Weight,25%,Weight
+Code1 Distribution Weight,30%,Weight
+OSDA Weight,15%,Weight
+Tiny Category Accuracy,70.00%,Percentage
+Very Small Category Accuracy,92.50%,Percentage
+Small Category Accuracy,92.99%,Percentage
